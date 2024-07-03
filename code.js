@@ -1,5 +1,5 @@
 const busy = [
-  { start: "10:30", stop: "10:50" },
+  { start: "9:30", stop: "10:50" },
   { start: "18:40", stop: "18:50" },
   { start: "14:40", stop: "15:50" },
   { start: "16:40", stop: "17:20" },
@@ -18,12 +18,15 @@ const startTime = getMinutes(allTime.start);
 const endTime = getMinutes(allTime.stop);
 
 const sortedBusy = [...busy].sort((a, b) => {
-  if (a.start < b.start) return -1;
-  if (a.start > b.start) return 1;
+  const timeA = new Date(`2000-01-01T${a.start}`);
+  const timeB = new Date(`2000-01-01T${b.start}`);
+
+  if (timeA < timeB) return -1;
+  if (timeA > timeB) return 1;
   return 0;
 });
 
-// console.log("sortedBusy ", sortedBusy);
+//  console.log("sortedBusy ", sortedBusy);
 
 function getFreeWindows(startPosition, endPosition, busyIntervals) {
   let freeWindows = [];
@@ -51,7 +54,7 @@ function getFreeWindows(startPosition, endPosition, busyIntervals) {
 }
 
 const freeWindows = getFreeWindows(startTime, endTime, sortedBusy);
-// console.log("freeWindows ", freeWindows);
+//  console.log("freeWindows ", freeWindows);
 
 function splitIntervals(start, end, period) {
   let windows = [];
@@ -74,7 +77,7 @@ function getAllintervals(windows, intervalTime) {
 }
 
 const freeWindowsIntervals = getAllintervals(freeWindows, 30);
-// console.log("freeWindowsIntervals ", freeWindowsIntervals);
+//  console.log("freeWindowsIntervals ", freeWindowsIntervals);
 
 function getTimeFromMinutes(minutes) {
   const hours = Math.floor(minutes / 60);
